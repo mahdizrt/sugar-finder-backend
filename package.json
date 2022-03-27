@@ -5,10 +5,15 @@
   "main": "src/index.ts",
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "12.16.3"
+  },
   "scripts": {
     "dev": "npx nodemon src/index.ts",
     "build": "tsc",
-    "preview": "tsc && node dist/index.js"
+    "preview": "tsc && node dist/index.js",
+    "start": "node dist/index.js",
+    "postinstall": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
