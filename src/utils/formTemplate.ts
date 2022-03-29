@@ -1,7 +1,12 @@
+import * as dotenv from "dotenv";
 import _ from "lodash";
 
 import { getState } from "../store";
 import { nouns, messages } from "../nouns";
+
+dotenv.config();
+
+const DEV = process.env.NODE_ENV === "development";
 
 const template = `
     📝 ${nouns.SPECIFICATIONS}: #<%- type %>
@@ -27,6 +32,12 @@ const template = `
     🏘 ${nouns.CITY}: <%- location %>
 
     🔅 ${nouns.CONDITIONS}: <%- conditions %>
+
+    ${messages.FORM_DESC}
+
+    [${nouns.LINK_CHAT}](https://telegram.me/${
+  DEV ? "sugar_finder_staging_bot" : "sugar_yab_bot"
+}?start=<%- code %>)
 
     💢 ${messages.DESCRIPTION1}
 

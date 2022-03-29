@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
@@ -19,8 +20,10 @@ const firebaseConfigDev = {
   appId: "1:828471723544:web:61506f8643414f6f15656d",
 };
 
-const Dev = process.env.NODE_ENV === "development";
-const firebaseConfig = Dev ? firebaseConfigDev : firebaseConfigProd;
+dotenv.config();
+
+const DEV = process.env.NODE_ENV === "development";
+const firebaseConfig = DEV ? firebaseConfigDev : firebaseConfigProd;
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);

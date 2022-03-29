@@ -18,8 +18,8 @@ import { bot } from ".";
 import { db } from "./firebase";
 import { createForm } from "./utils";
 
-const Dev = process.env.NODE_ENV === "development";
-const CHANNEL_ID = Dev
+const DEV = process.env.NODE_ENV === "development";
+const CHANNEL_ID = DEV
   ? process.env.CHANNEL_ID_DEV
   : process.env.CHANNEL_ID_PROD;
 
@@ -125,7 +125,7 @@ app.get("/api/messages", async (req, res) => {
   const messagesQuery = query(
     collection(db, "messages"),
     orderBy("timestamp", "desc"),
-    limit(30)
+    limit(50)
   );
   const messagesSnap = await getDocs(messagesQuery);
   const messages = messagesSnap.docs.map((message) => ({
@@ -150,20 +150,26 @@ app.get("/api/messages/:id", async (req, res) => {
   );
   const messagesSnap1 = await getDocs(messagesQuery1);
   const messagesSnap2 = await getDocs(messagesQuery2);
-  const messages1 = messagesSnap1.docs.map((message) => ({
+  type Messages = { id: string; first_name: string }[];
+  const messages1: Messages = messagesSnap1.docs.map((message) => ({
     id: message.id,
+    first_name: message.data()?.first_name,
     ...message.data(),
   }));
-  const messages2 = messagesSnap2.docs.map((message) => ({
+  const messages2: Messages = messagesSnap2.docs.map((message) => ({
     id: message.id,
+    first_name: message.data().first_name,
     ...message.data(),
   }));
   const messages = _.orderBy(
     messages1.concat(messages2),
     ["timestamp"],
-    ["asc"]
+    ["desc"]
   );
-  res.json(messages);
+  res.json({
+    users: [messages1[0].first_name, messages2[0].first_name],
+    messages,
+  });
 });
 
 export { app };
