@@ -3,7 +3,7 @@ import { Context } from "grammy";
 import { Menu } from "@grammyjs/menu";
 import { ReplyToMessageContext } from "@grammyjs/stateless-question/dist/source/identifier";
 
-import { bot } from "..";
+import { bot } from "../bot";
 import { messages, nouns } from "../nouns";
 import { sendMessageToAdmin } from "./sendMessageToAdmin";
 import { saveForm } from "./saveForm";

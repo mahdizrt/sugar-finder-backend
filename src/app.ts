@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import {
@@ -14,9 +15,10 @@ import {
 } from "firebase/firestore";
 import _ from "lodash";
 
-import { bot } from ".";
+import { bot } from "./bot";
 import { db } from "./firebase";
 import { createForm } from "./utils";
+import { webhookCallback } from "grammy";
 
 const DEV = process.env.NODE_ENV === "development";
 const CHANNEL_ID = DEV
@@ -26,6 +28,11 @@ const CHANNEL_ID = DEV
 const app = express();
 
 app.use(cors());
+
+const secretPath = String(
+  DEV ? process.env.BOT_TOKEN_DEV : process.env.BOT_TOKEN_PROD
+);
+app.use(`/${secretPath}`, webhookCallback(bot, "express"));
 
 app.get("/", (req, res) => {
   res.send("Hi");

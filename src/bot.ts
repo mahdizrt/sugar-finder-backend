@@ -42,8 +42,6 @@ const CHANNEL_ID = DEV
 const BOT_TOKEN = DEV ? process.env.BOT_TOKEN_DEV : process.env.BOT_TOKEN_PROD;
 const bot = new Bot<MyContext>(BOT_TOKEN);
 
-const PORT = process.env.PORT || 5000;
-
 bot.use(hydrate());
 bot.use(submitFormMenu);
 questions.forEach((question) => bot.use(question.middleware()));
@@ -267,16 +265,6 @@ bot.command("start", start);
 bot.catch((err) => {
   bot.api.sendMessage(process.env.ADMIN_ID, err.toString());
   console.error("error::", err);
-});
-
-bot.start({
-  onStart() {
-    console.log("bot started");
-  },
-});
-
-app.listen(PORT, () => {
-  console.log(`server started on port ${PORT}`);
 });
 
 export { bot };

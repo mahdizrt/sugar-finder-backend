@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import { RawApi } from "grammy";
 import { Other } from "grammy/out/core/api";
 
-import { bot } from "..";
+import { bot } from "../bot";
 
 dotenv.config();
 
