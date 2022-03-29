@@ -9,8 +9,7 @@ declare global {
       PORT: number;
       NODE_ENV: "production" | "development";
 
-      DOMAIN_DEV: string;
-      DOMAIN_PROD: string;
+      DOMAIN: string;
     }
   }
 }
