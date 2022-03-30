@@ -32,7 +32,6 @@ app.use(cors());
 const secretPath = String(process.env.BOT_TOKEN_PROD);
 
 app.use(`/${secretPath}`, webhookCallback(bot, "express"));
-app.use(webhookCallback(bot, "express"));
 
 app.get("/", (req, res) => {
   res.send("Hi");
