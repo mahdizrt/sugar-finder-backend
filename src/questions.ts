@@ -211,17 +211,6 @@ export const conditionsQuestion = new StatelessQuestion(
   }
 );
 
-export const codeQuestion = new StatelessQuestion("code", async (ctx) => {
-  const code = ctx.message.text;
-
-  if (!code) {
-    await codeQuestion.replyWithMarkdown(ctx, messages.FORM_CODE_QUESTION);
-    return;
-  }
-
-  await getFormWithCode(ctx, code);
-});
-
 export const questions = [
   typeQuestion,
   nameQuestion,
@@ -234,5 +223,4 @@ export const questions = [
   weightQuestion,
   locationQuestion,
   conditionsQuestion,
-  codeQuestion,
 ];

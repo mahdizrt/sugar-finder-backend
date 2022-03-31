@@ -15,9 +15,8 @@ import {
   where,
 } from "firebase/firestore";
 
-import { app } from "./app";
 import { db } from "./firebase";
-import { typeQuestion, questions, codeQuestion } from "./questions";
+import { typeQuestion, questions } from "./questions";
 import {
   submitFormMenu,
   chatIdConvertor,
@@ -134,7 +133,7 @@ const deleteFormMenu = new Menu("delete-form-menu").text(
 );
 bot.use(deleteFormMenu);
 
-const getForm = async (ctx: Context) => {
+const createForm = async (ctx: Context) => {
   if (!ctx.chat?.id) return;
 
   const formsRef = collection(db, "forms");
@@ -151,19 +150,10 @@ const getForm = async (ctx: Context) => {
 
   typeQuestion.replyWithMarkdown(ctx, messages.FORM_TYPE_QUESTION);
 };
-bot.hears(nouns.CREATE_FORM, getForm);
-bot.command("form", getForm);
+bot.hears(nouns.CREATE_FORM, createForm);
+bot.command("create", createForm);
 
-const getSearch = (ctx: Context) => {
-  codeQuestion.replyWithMarkdown(ctx, messages.FORM_CODE_QUESTION);
-};
-bot.hears(nouns.SEARCH, getSearch);
-bot.command("search", getSearch);
-
-const mainKeyboard = new Keyboard()
-  .text(nouns.CREATE_FORM)
-  .row()
-  .text(nouns.SEARCH);
+const mainKeyboard = new Keyboard().text(nouns.CREATE_FORM);
 
 bot.hears("ping", (ctx) => {
   ctx.reply("pong");
@@ -249,6 +239,19 @@ bot.on(":photo", async (ctx) => {
 });
 
 const start = async (ctx: Context) => {
+  if (ctx.from?.id) {
+    const member = await bot.api.getChatMember(CHANNEL_ID, ctx.from?.id);
+    if (member.status === "left") {
+      ctx.reply(messages.FOR_USE_BOT_JOIN_IN_CHANNEL, {
+        reply_markup: new InlineKeyboard().url(
+          nouns.CHANNEL_NAME,
+          `https://t.me/${DEV ? "sugar_yab_staging" : "sugar_yabe"}`
+        ),
+      });
+      return;
+    }
+  }
+
   if (ctx.match) {
     getFormWithCode(ctx, ctx.match.toString());
     return;

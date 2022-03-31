@@ -11,8 +11,6 @@ const DEV = process.env.NODE_ENV === "development";
 const template = `
     📝 ${nouns.SPECIFICATIONS}: #<%- type %>
 
-    🆔 ${nouns.CODE}: ${"`<%- code %>`"}
-
     📛 ${nouns.NAME}: <%- name %>
 
     🚺🚹 ${nouns.GANDER}: <%- gender %>
@@ -49,10 +47,9 @@ const formCompiled = _.template(template);
 const createForm = (formObj?: any) => {
   const formData = formObj || getState().form;
 
-  const form = formCompiled({
+  return formCompiled({
     ...formData,
   });
-  return form;
 };
 
 export { template, formCompiled, createForm };

@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { Context } from "grammy";
+import { Context, InlineKeyboard } from "grammy";
 import { Menu } from "@grammyjs/menu";
 import { ReplyToMessageContext } from "@grammyjs/stateless-question/dist/source/identifier";
 
@@ -11,6 +11,8 @@ import { createForm } from "./formTemplate";
 
 dotenv.config();
 
+const DEV = process.env.NODE_ENV === "development";
+
 const deleteForm = async (chatId: number, message_id: number) => {
   await bot.api.deleteMessage(chatId, message_id);
   await bot.api.deleteMessage(chatId, message_id - 1);
@@ -18,7 +20,7 @@ const deleteForm = async (chatId: number, message_id: number) => {
 
 export const submitFormMenu = new Menu("submit-form-menu")
   .text(nouns.YES, async (ctx) => {
-    await sendMessageToAdmin(createForm(), {
+    sendMessageToAdmin(createForm(), {
       parse_mode: "Markdown",
     });
 
@@ -30,7 +32,12 @@ export const submitFormMenu = new Menu("submit-form-menu")
         ctx.callbackQuery.message?.message_id as number
       ));
 
-    ctx.reply(messages.FORM_SUCCESS_MESSAGE);
+    ctx.reply(messages.FORM_SUCCESS_MESSAGE, {
+      reply_markup: new InlineKeyboard().url(
+        nouns.CHANNEL_NAME,
+        `https://t.me/${DEV ? "sugar_yab_staging" : "sugar_yabe"}`
+      ),
+    });
   })
   .text(nouns.NO, async (ctx) => {
     ctx.chat?.id &&

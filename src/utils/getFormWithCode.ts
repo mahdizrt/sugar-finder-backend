@@ -4,7 +4,6 @@ import { Context } from "grammy";
 
 import { db } from "../firebase";
 import { messages } from "../nouns";
-import { codeQuestion } from "../questions";
 import { createForm } from "./formTemplate";
 
 export const getFormWithCode = async (
@@ -17,7 +16,6 @@ export const getFormWithCode = async (
 
   if (!formsSnap.docs.length) {
     await ctx.reply(messages.SEARCH_FORM_NOT_FOUND);
-    codeQuestion.replyWithMarkdown(ctx, messages.FORM_CODE_QUESTION);
     return;
   }
 

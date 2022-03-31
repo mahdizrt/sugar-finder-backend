@@ -17,8 +17,9 @@ import _ from "lodash";
 
 import { bot } from "./bot";
 import { db } from "./firebase";
-import { createForm } from "./utils";
+import { chatIdConvertor, createForm } from "./utils";
 import { webhookCallback } from "grammy";
+import { messages } from "./nouns";
 
 const DEV = process.env.NODE_ENV === "development";
 const CHANNEL_ID = DEV
@@ -108,8 +109,14 @@ app.put("/api/forms/:id/confirmed", async (req, res) => {
   });
 
   const formSnap = await getDoc(formRef);
+  const form = formSnap.data();
 
-  res.json(formSnap.data());
+  bot.api.sendMessage(
+    chatIdConvertor.parse(form?.code),
+    messages.FORM_SUCCESS_SEND_IN_CHANNEL
+  );
+
+  res.json(form);
 });
 
 app.delete("/api/forms/:id", async (req, res) => {
@@ -124,6 +131,11 @@ app.delete("/api/forms/:id", async (req, res) => {
 
   const form = formSnap.data();
 
+  bot.api.sendMessage(
+    chatIdConvertor.parse(form?.code),
+    messages.FORM_DELETE_BEFORE_CONFIRM
+  );
+
   form?.message_id && bot.api.deleteMessage(CHANNEL_ID, form.message_id);
 
   res.json(form);
@@ -136,11 +148,11 @@ app.get("/api/messages", async (req, res) => {
     limit(50)
   );
   const messagesSnap = await getDocs(messagesQuery);
-  const messages = messagesSnap.docs.map((message) => ({
+  const chatMessages = messagesSnap.docs.map((message) => ({
     id: message.id,
     ...message.data(),
   }));
-  res.json(messages);
+  res.json(chatMessages);
 });
 
 app.get("/api/messages/:id", async (req, res) => {
@@ -169,14 +181,14 @@ app.get("/api/messages/:id", async (req, res) => {
     first_name: message.data().first_name,
     ...message.data(),
   }));
-  const messages = _.orderBy(
+  const chatMessages = _.orderBy(
     messages1.concat(messages2),
     ["timestamp"],
     ["desc"]
   );
   res.json({
     users: [messages1[0].first_name, messages2[0].first_name],
-    messages,
+    messages: chatMessages,
   });
 });
 
