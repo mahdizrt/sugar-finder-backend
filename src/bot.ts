@@ -267,10 +267,4 @@ bot.catch((err) => {
   console.error("error::", err);
 });
 
-bot.start({
-  onStart() {
-    console.log("bot started");
-  },
-});
-
 export { bot };

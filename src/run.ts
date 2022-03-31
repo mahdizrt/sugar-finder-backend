@@ -17,9 +17,14 @@ const run = async () => {
     app.listen(PORT, () => {
       console.log(`server started on port ${PORT}`);
     });
+    bot.start({
+      onStart() {
+        console.log("bot started");
+      },
+    });
   } else {
     app.listen(PORT, async () => {
-      await bot.api.setWebhook(`https://${domain}/${secretPath}`);
+      // await bot.api.setWebhook(`https://${domain}/${secretPath}`);
       console.log(`server started on port ${PORT}`);
     });
   }
