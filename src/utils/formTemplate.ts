@@ -38,6 +38,7 @@ const template = `
 }?start=<%- code %>)
 
     💢 ${messages.DESCRIPTION2}
+    ${DEV ? "@sugar_finder_staging_bot" : "@sugar_yab_bot"}
 `;
 
 const formCompiled = _.template(template);
