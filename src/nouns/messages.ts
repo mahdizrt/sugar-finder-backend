@@ -16,7 +16,7 @@ const messages = {
   FORM_CITY_QUESTION: "لطفا شهر خود را وارد کنید؟",
   FORM_CONDITIONS_QUESTION: "لطفا شرایط خود را وارد کنید؟",
   FORM_SUCCESS_MESSAGE:
-    "فرم شما با موفقیت ثبت شد و حداقل 2 و حداکثر 5 ساعت دیگر در کانال پست خواهد شد",
+    "فرم شما با موفقیت ثبت شد و حداکثر تا 12 ساعت دیگر در کانال پست خواهد شد",
   FORM_ERROR_MESSAGE: "فرم ثبت نشد!!",
   FORM_VALID_MESSAGE: "آیا اطلاعات فرم مورد تایید است؟",
   FORM_AGE_VALID_MESSAGE: "سن را به صورت عدد وارد کنید",
