@@ -158,36 +158,47 @@ app.get("/api/messages", async (req, res) => {
 app.get("/api/messages/:id", async (req, res) => {
   const usersQuery = req.query.users as string;
   const users = usersQuery?.split(",");
+
   const messagesQuery1 = query(
     collection(db, "messages"),
     where("from", "==", parseInt(users[0])),
     where("to", "==", parseInt(users[1]))
   );
+
   const messagesQuery2 = query(
     collection(db, "messages"),
     where("from", "==", parseInt(users[1])),
     where("to", "==", parseInt(users[0]))
   );
+
   const messagesSnap1 = await getDocs(messagesQuery1);
   const messagesSnap2 = await getDocs(messagesQuery2);
+
   type Messages = { id: string; first_name: string }[];
+
   const messages1: Messages = messagesSnap1.docs.map((message) => ({
     id: message.id,
     first_name: message.data()?.first_name,
     ...message.data(),
   }));
+
   const messages2: Messages = messagesSnap2.docs.map((message) => ({
     id: message.id,
-    first_name: message.data().first_name,
+    first_name: message.data()?.first_name,
     ...message.data(),
   }));
+
   const chatMessages = _.orderBy(
     messages1.concat(messages2),
     ["timestamp"],
     ["desc"]
   );
+
   res.json({
-    users: [messages1[0].first_name, messages2[0].first_name],
+    users: [
+      messages1[0]?.first_name || "USER NOT ANSWERED",
+      messages2[0]?.first_name || "USER NOT ANSWERED",
+    ],
     messages: chatMessages,
   });
 });
