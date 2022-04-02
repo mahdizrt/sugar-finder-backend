@@ -10,17 +10,16 @@ const messageTemplate = `
     <%- message %>
     ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️ ⬆️
 
-    ${messages.MESSAGE_REPLY_TO_USER}
+    ${messages.MESSAGE_REPLY_TO_USER}(${messages.MESSAGE_JUST_TEXT_PHOTO})
 `;
 
 const messageCompiled = _.template(messageTemplate);
 
 const createMessage = (messageObj: any) => {
-  const message = messageCompiled({
+  return messageCompiled({
     code: chatIdConvertor.toString(messageObj?.code),
     message: messageObj?.text,
   });
-  return message;
 };
 
 export { messageTemplate, createMessage };

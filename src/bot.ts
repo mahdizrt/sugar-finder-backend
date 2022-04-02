@@ -174,6 +174,8 @@ bot.on("message", async (ctx, next) => {
       return;
     }
 
+    if (!text) return;
+
     const messageData: MessageType = {
       from: ctx.from?.id || 0,
       to: toChatId,

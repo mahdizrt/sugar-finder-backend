@@ -54,6 +54,7 @@ const messages = {
   FORM_SUCCESS_SEND_IN_CHANNEL: "فرم شما با موفقیت در کانال ارسال شد",
   FORM_DELETE_BEFORE_CONFIRM: "متاسفانه فرم شما توسط ادمین حذف شد.",
   FOR_USE_BOT_JOIN_IN_CHANNEL: "برای استفاده از ربات باید در کانال عضو شوید",
+  MESSAGE_JUST_TEXT_PHOTO: "فقط متن و عکس",
 };
 
 export { messages };
