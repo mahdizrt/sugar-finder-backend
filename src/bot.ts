@@ -191,6 +191,7 @@ bot.on("message", async (ctx, next) => {
       createMessage({
         code: chatIdConvertor.toString(ctx.chat.id),
         text: text,
+        name: ctx.from.first_name,
       }),
       {
         reply_markup: blockUserInlineKeyboard,
@@ -233,6 +234,7 @@ bot.on(":photo", async (ctx) => {
       caption: createMessage({
         code: chatIdConvertor.toString(ctx.chat.id),
         text: `🤖 ${messages.MESSAGE_SEND_PHOTO}`,
+        name: ctx.from.first_name,
       }),
       reply_markup: blockUserInlineKeyboard,
     });

@@ -4,7 +4,7 @@ import { chatIdConvertor } from "./chatIdConvertor";
 import { messages } from "../nouns";
 
 const messageTemplate = `
-    👤 <%- code %>
+    👤 <%- code %> - <%- name %>
     ${messages.MESSAGE_RECEIVED_FROM_USER}: 
     ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️ ⬇️
     <%- message %>
@@ -19,6 +19,7 @@ const createMessage = (messageObj: any) => {
   return messageCompiled({
     code: chatIdConvertor.toString(messageObj?.code),
     message: messageObj?.text,
+    name: messageObj?.name,
   });
 };
 

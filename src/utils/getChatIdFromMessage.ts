@@ -1,6 +1,6 @@
 const getChatIdFromMessage = (message: string) => {
   return message
-    .slice(message.indexOf("👤") + 2, message.indexOf("\n", 1))
+    .slice(message.indexOf("👤") + 2, message.indexOf("-", 1))
     .trim();
 };
 
